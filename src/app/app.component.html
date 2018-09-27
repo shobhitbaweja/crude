@@ -1,17 +1,26 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div class="txt-center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
 
-  <h1>crudeLm price : {{ cprice }}</h1>
+
+<div class="txt-center">
+  <h2>
+    Welcome {{ stitle }}!
+  </h2>
+
+  <h2>crudeLm price : {{ cprice }}</h2>
   <h2>Call : {{ call }}</h2>
   <h3>trigger : {{ trigger }}  at {{ lastTime }}</h3>
+  <h4>{{ upstox_token }} '--' {{ code }}</h4>
 <br>
   your call  
   <select [(ngModel)]="call" name="call" (change)="callChecker()">
     <option *ngFor="let option of calloptions" [value]="option">{{option}}</option>
   </select>
+
+  <input type="number" [(ngModel)]="cprice" (change)="callChecker()" />
+<br/>
+  <span>my bought: {{my_price}} </span> | 
+  <span>trigger: {{my_set_trigger}}</span> | 
+  <span>span: {{my_set_trigger_span}}</span>
   
 </div>
 
