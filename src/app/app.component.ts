@@ -1,10 +1,10 @@
 
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import {formatDate } from '@angular/common';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import { Upstox } from 'up_module/upstox/lib/src/UpstoxAPI';
+import {HttpClient, HttpHeaders } from '@angular/common/http';
+// import { Upstox } from './../../up_module/upstox/lib/src/UpstoxAPI';
 
-
+const Upstox = require ('upstox');
 
 declare var params: {
   'apiSecret': 'MODM7ggMdn3wHEe0wEFSe34K4ZFBDF6V4ud90czr',
@@ -80,9 +80,9 @@ export class AppComponent {
 
      upstox.getAccessToken(this.params)
      .then(function(response) {
-       console.log(response.access_token);
+     //  console.log(response.access_token);
        accessToken = response.access_token;
-       console.log('l-' + accessToken);
+     //  console.log('l-' + accessToken);
        upstox.setToken(accessToken);
        token = accessToken;
      })
@@ -115,18 +115,18 @@ export class AppComponent {
      this.getPosition();
      this.getProfile();
      this.saveToken(token, title);
-     this.showContract();
+    // this.showContract();
  }, 1000);
 
    // this.showContract();
    // upstox = new Upstox('MODM7ggMdn3wHEe0wEFSe34K4ZFBDF6V4ud90czr');
 
-/*
+
     httpOptions.headers.append('Access-Control-Allow-Origin', 'http://localhost:4200/');
     httpOptions.headers.append('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     httpOptions.headers.append('Access-Control-Allow-Headers', 'X-Requested-With,cotent-type');
     httpOptions.headers.append('Access-Control-Allow-Credentials', 'true');
-
+/*
 
     console.log('https://api.upstox.com/index/oauth/token'+'{"api_key":"MODM7ggMdn3wHEe0wEFSe34K4ZFBDF6V4ud90czr", "code" : "'+ this.code +'", "grant_type" : "authorization_code", "redirect_uri" : "http://localhost:4200/"}');
        // tslint:disable-next-line:max-line-length
@@ -180,12 +180,15 @@ export class AppComponent {
 
     setTimeout(() => {
       this.saveToken(token, title);
+      this.showContract();
+     // this.setSocket();
     }, 1000 );
 
   }
 
    showContract() {
    // console.log(upstox.getLoginUri('http://localhost:4200/'));
+   
     upstox.getMasterContract({exchange: 'mcx_fo'})
     .then(function(response) {
         console.log(response.data);
@@ -194,6 +197,39 @@ export class AppComponent {
         console.log(err);
     });
 
+  }
+
+  setSocket() {
+    upstox.connectSocket()
+    .then(function() {
+        // Socket Connection successfull
+        // Now you can setup listeners
+        upstox.on("orderUpdate", function(message) {
+            //message for order updates
+        });
+        upstox.on("positionUpdate", function(message) {
+            //message for position conversion
+        });
+        upstox.on("tradeUpdate", function(message) {
+            //message for trade updates
+        });
+        upstox.on("liveFeed", function(message) {
+            //message for live feed
+
+            console.log( 'websocket message' + message);
+        });
+        upstox.on("disconnected", function(message) {
+            //listener after socket connection is disconnected
+        });
+        upstox.on("error", function(error) {
+            //error listener
+            console.log( 'websocket' + error);
+        });
+        //You can call upstox.closeSocket() to disconnect
+    }).catch(function(err) {
+        // Something went wrong.
+        console.log( 'websocket err' + err);
+    });
   }
 
   callChecker() {
