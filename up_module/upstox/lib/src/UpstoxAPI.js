@@ -125,7 +125,7 @@ var constants = require("./constants.json");
  *
  */
 function Upstox(apiKey) {
-
+console.log(apiKey + 'api');
     /**
      * @type {{apiKey: *}}
      * @private
@@ -147,6 +147,7 @@ function Upstox(apiKey) {
     this.socketCloseListener;
     this.socketErrorListener;
     this.socketConnection;
+    console.log(this.auth);
 }
 
 /**

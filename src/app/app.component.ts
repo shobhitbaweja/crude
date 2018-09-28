@@ -38,7 +38,10 @@ export class AppComponent {
 
 
   ngOnInit(): void {
-
+  /*  httpOptions.headers.append('Access-Control-Allow-Origin', 'http://localhost:4200/');
+    httpOptions.headers.append('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    httpOptions.headers.append('Access-Control-Allow-Headers', 'X-Requested-With,cotent-type');
+    httpOptions.headers.append('Access-Control-Allow-Credentials', 'true');
     /*
 
    this.upstox = new Upstox('MODM7ggMdn3wHEe0wEFSe34K4ZFBDF6V4ud90czr');
@@ -48,7 +51,6 @@ export class AppComponent {
    const loginURL = upstox.getLoginUri('http://upstox.com:3000');*/
 
    this.code = new URLSearchParams(window.location.search).get('code');
-
 
     this.cprice = 1234;
     this.trigger_span = 5;
@@ -112,20 +114,17 @@ export class AppComponent {
       
       upstox.setToken(token);
      // this.getBalance();
-     this.getPosition();
-     this.getProfile();
+     // this.getPosition();
+     // this.getProfile();
      this.saveToken(token, title);
-    // this.showContract();
+     this.showContract();
  }, 1000);
 
    // this.showContract();
    // upstox = new Upstox('MODM7ggMdn3wHEe0wEFSe34K4ZFBDF6V4ud90czr');
 
 
-    httpOptions.headers.append('Access-Control-Allow-Origin', 'http://localhost:4200/');
-    httpOptions.headers.append('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    httpOptions.headers.append('Access-Control-Allow-Headers', 'X-Requested-With,cotent-type');
-    httpOptions.headers.append('Access-Control-Allow-Credentials', 'true');
+   
 /*
 
     console.log('https://api.upstox.com/index/oauth/token'+'{"api_key":"MODM7ggMdn3wHEe0wEFSe34K4ZFBDF6V4ud90czr", "code" : "'+ this.code +'", "grant_type" : "authorization_code", "redirect_uri" : "http://localhost:4200/"}');
@@ -139,12 +138,14 @@ export class AppComponent {
   }
 
  saveToken(mytoken, mytitle): void {
+ 
     this.upstox_token = mytoken;
     this.stitle = mytitle;
-    console.log(mytoken + '-' + mytitle);
+   // console.log(mytoken + '-' + mytitle);
   }
 
   getBalance() {
+  
     upstox.getBalance({'type': 'commodity'})
     .then(function (response) {
       console.log(response);
@@ -156,6 +157,7 @@ export class AppComponent {
   }
 
   getPosition() {
+   
     upstox.getPositions()
     .then(function (response) {
       console.log(response);
@@ -167,6 +169,7 @@ export class AppComponent {
   }
 
   getProfile() {
+   
     let st_title = '';
     upstox.getProfile()
     .then(function (response) {
@@ -188,14 +191,17 @@ export class AppComponent {
 
    showContract() {
    // console.log(upstox.getLoginUri('http://localhost:4200/'));
-   
-    upstox.getMasterContract({exchange: 'mcx_fo'})
+  
+   setTimeout(() => {
+    upstox.getMasterContract({exchange: 'nse_eq', symbol: 'reliance', type: 'full'})
     .then(function(response) {
         console.log(response.data);
     })
     .catch(function(err) {
         console.log(err);
     });
+   }, 1000);
+
 
   }
 
