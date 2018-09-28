@@ -115,9 +115,10 @@ export class AppComponent {
       upstox.setToken(token);
      // this.getBalance();
      // this.getPosition();
-     // this.getProfile();
+      this.getProfile();
      this.saveToken(token, title);
-     this.showContract();
+     // this.showContract();
+     this.httpContract();
  }, 1000);
 
    // this.showContract();
@@ -181,12 +182,26 @@ export class AppComponent {
       console.log(error);
     });
 
-    setTimeout(() => {
+   /* setTimeout(() => {
       this.saveToken(token, title);
       this.showContract();
      // this.setSocket();
-    }, 1000 );
+    }, 1000 );*/
 
+  }
+
+  httpContract() {
+    httpOptions.headers.append('Access-Control-Allow-Origin', 'http://localhost:4200/');
+    httpOptions.headers.append('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    httpOptions.headers.append('Access-Control-Allow-Headers', 'X-Requested-With,cotent-type');
+    httpOptions.headers.append('Access-Control-Allow-Credentials', 'true');
+    httpOptions.headers.append('authorization', 'Bearer {' + token + '}');
+    httpOptions.headers.append('x-api-key', 'MODM7ggMdn3wHEe0wEFSe34K4ZFBDF6V4ud90czr');
+
+    return this.http.get('https://api.upstox.com/index/master-contract/nse_eq?symbol=infy', httpOptions)
+    .subscribe(data => {
+      console.log('got_it', data);
+    });
   }
 
    showContract() {
