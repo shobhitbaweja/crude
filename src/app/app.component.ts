@@ -82,9 +82,9 @@ export class AppComponent {
 
      upstox.getAccessToken(this.params)
      .then(function(response) {
-     //  console.log(response.access_token);
+      console.log(response.access_token);
        accessToken = response.access_token;
-     //  console.log('l-' + accessToken);
+       console.log('l-' + accessToken);
        upstox.setToken(accessToken);
        token = accessToken;
      })
@@ -106,7 +106,8 @@ export class AppComponent {
 
     setTimeout(() => {
 
-      if ( this.code == null || token === 'tk') {
+      //if ( this.code == null || token === 'tk') {
+        if (this.code == null) {
         window.location.href = upstox.getLoginUri('http://localhost:4200/');
       }
 
@@ -142,7 +143,7 @@ export class AppComponent {
  
     this.upstox_token = mytoken;
     this.stitle = mytitle;
-   // console.log(mytoken + '-' + mytitle);
+    console.log(mytoken + '-' + mytitle);
   }
 
   getBalance() {
